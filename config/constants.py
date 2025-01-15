@@ -1,6 +1,7 @@
 import os
 
-TYPE = os.getenv('TYPE', 'development')  # 'development', 'production', 'test'
+TYPE = os.getenv('TYPE', 'development')  
+# 'development', 'production', 'test'
 
 JWT_SECRET_KEY_DEV = 'devsecretkey'
 JWT_SECRET_KEY_PROD = 'prodsecretkey'
