@@ -1,39 +1,19 @@
-import requests
-import random
-import string
+from Crypto.Cipher import AES
+import binascii
 
-url = "https://web.ktkpp.com/backend/users/api/v1/profile/update"  
+encrypted_hex = "8b0e85bdeb1f4c54d1ebcfd6b11f0248e7a73a334a9aca802fdc7a224f33a7bafc6c577eeae43b94402db4e1a3d322c9"
 
-url2 = "https://web.ktkpp.com/backend/users/api/v1/get_wallet"
+key = b"supersecretkeyyy"  
+iv = b"IV_cbc" + b"\x00" * 10  
 
-headers = {
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJVNGM5YmYwOTg5YzhlNDJiYzkxYmU1MGU2ZTQxMjdjMWMiLCJleHAiOjE3NTQ5MjAxNjB9.bPAur2NyS5rJgcU-_VEOsaHZqI5sOpBxdIM8IX95xOw",
-    "Content-Type": "application/json"
-}
+encrypted_data = binascii.unhexlify(encrypted_hex)
 
-def generate_random_address(length=20):
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+cipher = AES.new(key, AES.MODE_CBC, iv)
 
-def send_requests():
-    for i in range(100):
-        random_address = generate_random_address()
-        
-        data = {
-            "address": random_address,
-            "first_name": "Test",
-            "last_name": "Test S",
-            "uid": "U4c9bf0989c8e42bc91be50e6e4127c1c" , 
+decrypted_data = cipher.decrypt(encrypted_data)
 
-            
-             }
-        
-        response = requests.put(url, json=data, headers=headers)
-        response2 = requests.get(url2, headers=headers)
-
-        
-        print(f"Request {i + 1}: Status Code: {response.status_code}, Response: {response.text}")
-        print(f"Request {i + 1}: Status Code: {response2.status_code}, Response2: {response2.text}")
-
-
-# Run the script
-send_requests()
+try:
+    decrypted_text = decrypted_data.decode("utf-8").rstrip("\x00")  
+    print("Decrypted text:", decrypted_text)
+except UnicodeDecodeError:
+    print("Decrypted binary data:", decrypted_data)
