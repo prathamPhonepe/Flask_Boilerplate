@@ -1,6 +1,6 @@
 import jwt 
 from flask import request
-
+import bcrypt
 from config.constants import constants
 
 
@@ -69,7 +69,7 @@ def validate_token (req_header):
 
 
 
-# data =  create_token(12)
+# data =  create_token(12 , "email is also required")
 # print(data)
 
 
