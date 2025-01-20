@@ -3,6 +3,7 @@ from flask import request, jsonify
 from utils.auth.auth_utils import validate_token
 from utils.responses.responses import failure_responses
 def auth_middlewear(handler):
+    print(handler , "this is the handler")
     def wrapper(*args, **kwargs):
         print("middleware triggered") 
         req_header = request.headers

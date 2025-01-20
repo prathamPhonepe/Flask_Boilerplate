@@ -50,11 +50,11 @@ def getDataFromHeaders ():
 
 def generareJwtToken():
     content = request.get_json()
-    if content and "user_id" in content:
-        token = create_token(content["user_id"])
+    if content and "user_id"  and "email" in content:
+        token = create_token(content["user_id"] , content["email"])
         return success_responses(200 , "Token generated" , {"token" : token})
     else: 
-        return failure_responses(400 , "User Id is required")
+        return failure_responses(400 , "User Id is required and the email is requires")
 
 
 def verifyTokenGenerated():

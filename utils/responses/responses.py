@@ -4,8 +4,8 @@ from  flask import jsonify, request
 
 def success_responses(status , message, data=None):
     response = {
-        "status": "success",
         "message": message,
+        "success" : True , 
         "data": data if data else {}
     }
     return jsonify(response), status
@@ -13,7 +13,7 @@ def success_responses(status , message, data=None):
 
 def failure_responses (status , message , data=None ):
     response = {
-        "status" : "failure",
+        "success" : False , 
         "message" : message,
         "data" : data if data else {}
     }

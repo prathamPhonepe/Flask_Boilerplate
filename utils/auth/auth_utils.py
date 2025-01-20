@@ -5,6 +5,8 @@ def create_token(user_id , email):
     return jwt.encode({"user_id": user_id , "email" : email}  , "somestrongkey", algorithm="HS256")
 
 
+
+
 def decode_token(reqHeader):
     print(reqHeader)
     token = reqHeader.get("Authorization")
