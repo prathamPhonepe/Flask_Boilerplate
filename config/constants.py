@@ -6,15 +6,21 @@ load_dotenv()
 ALLOWED_TYPES = {'development', 'production', 'test'}
 
 TYPE = os.getenv('TYPE')
-
-print(TYPE)
-
 if TYPE not in ALLOWED_TYPES:
     raise ValueError(f"Invalid TYPE value: {TYPE}. Must be one of {ALLOWED_TYPES}.")
 
 JWT_SECRET_KEY_DEV = os.getenv('JWT_SECRET_KEY_DEV')
 JWT_SECRET_KEY_PROD = os.getenv('JWT_SECRET_KEY_PROD')
 JWT_SECRET_KEY_TEST = os.getenv('JWT_SECRET_KEY_TEST')
+
+
+APPLICATION_PORT = os.getenv('APPLICATION_PORT')
+
+if  APPLICATION_PORT is None:
+    APPLICATION_PORT = 3000
+
+
+
 ALLOWED_ORIGINS = os.getenv('ALLOWED_ORIGINS', '').split(',')
 
 if TYPE == 'development':
@@ -27,5 +33,6 @@ elif TYPE == 'test':
 constants = {
     'TYPE': TYPE,
     'JWT_SECRET_KEY': JWT_SECRET_KEY,
-    'ALLOWED_ORIGINS': ALLOWED_ORIGINS
+    'ALLOWED_ORIGINS': ALLOWED_ORIGINS , 
+    'APPLICATION_PORT' : APPLICATION_PORT
 }
