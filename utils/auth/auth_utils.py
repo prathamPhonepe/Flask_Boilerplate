@@ -1,8 +1,14 @@
 import jwt 
 from flask import request
 
+from config.constants import constants
+
+
+
+key = constants['JWT_SECRET_KEY']
+
 def create_token(user_id , email):
-    return jwt.encode({"user_id": user_id , "email" : email}  , "somestrongkey", algorithm="HS256")
+    return jwt.encode({"user_id": user_id , "email" : email}  , key , algorithm="HS256")
 
 
 
@@ -17,7 +23,7 @@ def decode_token(reqHeader):
     print("token", token)
 
     try:
-        return jwt.decode(token, "somestrongkey", algorithms=["HS256"])
+        return jwt.decode(token, key , algorithms=["HS256"])
     except:
         return None
     
@@ -30,7 +36,7 @@ def check_token(reqHeader):
     token = token.split(" ")[1]
 
     try:
-        jwt.decode(token, "somestrongkey", algorithms=["HS256"])
+        jwt.decode(token, key , algorithms=["HS256"])
         return True
     except:
         return False
@@ -50,7 +56,7 @@ def validate_token (req_header):
     print(token)
 
     try:
-        jwt.decode(token, "somestrongkey", algorithms=["HS256"])
+        jwt.decode(token, key , algorithms=["HS256"])
         return True
     except jwt.ExpiredSignatureError:
         print("Token has expired.")
