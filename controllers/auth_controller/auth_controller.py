@@ -8,7 +8,7 @@ from flask import request
 from utils.responses.responses import success_responses, failure_responses
 from config.config import getConnection, closeConnection
 from utils.validators.validators import register_validator
-from utils.auth.auth_utils import create_token
+from utils.auth.auth_utils import create_token , hash_password
 
 def register_user():
     try:
@@ -21,7 +21,8 @@ def register_user():
         if validatorResponse == True:                
             email = data["email"]
             password = data["password"]
-            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            hashed_password = hash_password(password)
+            print("this is the hasshed password " , hashed_password)
             connection = getConnection()
             cursor = connection.cursor()
             try:

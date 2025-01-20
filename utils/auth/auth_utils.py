@@ -13,6 +13,16 @@ def create_token(user_id , email):
 
 
 
+def hash_password(password):
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed_password.decode('utf-8')
+
+
+def check_password(password, hashed_password):
+    return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
+
+
 def decode_token(reqHeader):
     print(reqHeader)
     token = reqHeader.get("Authorization")
@@ -46,7 +56,6 @@ def check_token(reqHeader):
 
 
 
-
 def validate_token (req_header):
     token = req_header.get("Authorization")
     if not token or not token.startswith("Bearer "):
@@ -64,7 +73,16 @@ def validate_token (req_header):
     except jwt.InvalidTokenError:
         print("Invalid token.")
         return False
+    
 
+
+
+
+
+
+
+# print(check_password("pratham@111A"  , "$2b$12$IL6cwS8eAbpC.4rqmPNDvOvp8RVh6dMCtZEaSsfJUtcrE1wRxeht6"))  true
+# print(check_password("pratham@111"  , "$2b$12$IL6cwS8eAbpC.4rqmPNDvOvp8RVh6dMCtZEaSsfJUtcrE1wRxeht6"))  false
 
 
 
